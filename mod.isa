@@ -1,0 +1,50 @@
+#ifndef _MOD_ISA_
+#define _MOD_ISA_
+
+#define mod_10239(i1, i2, v0, s0) \
+    ; mod_10239 begin;; \
+    ; i1, i2, v, s;; \
+\
+    s_mov_b32       s0, 0x6668f5d3;; \
+    v_mul_hi_u32    v ## i2, v0, s0;; \
+    v_mul_lo_u32    v ## i1, v0, s0;; \
+    v_lshr_b64      v[i1:i2], v[i1:i2], 44;; \
+    s_movk_i32      s0, 0x27ff;; \
+    v_mul_lo_i32    v ## i1, v ## i1, s0;; \
+    v_sub_i32       v ## i1, v0, v ## i1;; \
+\
+    ; mod_10239 end
+
+#define mod_5121(i1, i2, v0, s0) \
+    ; mod_5121 begin;; \
+    ; i1, i2, v, s;; \
+\
+    s_mov_b32       s0, 0x0666147f;; \
+    v_mul_hi_u32    v ## i2, v0, s0;; \
+    v_mul_lo_u32    v ## i1, v0, s0;; \
+    v_lshr_b64      v[i1:i2], v[i1:i2], 39;; \
+    s_movk_i32      s0, 0x1401;; \
+    v_mul_lo_i32    v ## i1, v ## i1, s0;; \
+    v_sub_i32       v ## i1, v0, v ## i1;; \
+\
+    ; mod_5121 end
+
+#define mod_10241(i1, i2, v0, s0) \
+    ; mod_10241 begin;; \
+    ; i1, i2, v, s;; \
+\
+    s_mov_b32       s0, 0x11159e3b;; \
+    v_mul_hi_u32    v ## i2, v0, s0;; \
+    v_mul_lo_u32    v ## i1, v0, s0;; \
+    v_lshr_b64      v[i1:i2], v[i1:i2], 32;; \
+    v_sub_i32       v ## i2, v0, v ## i1;;  \
+    v_lshrrev_b32   v ## i2, 1, v ## i2;; \
+    v_add_i32       v ## i1, v ## i1, v ## i2; \\
+    v_lshrrev_b32   v ## i1, 13, v ## o1;; \
+    s_movk_i32      s0, 0x1401;; \
+    v_mul_lo_i32    v ## i1, v ## i1, s0;; \
+    v_sub_i32       v ## i1, v0, v ## i1;; \
+\
+    ; mod_10241 end
+
+#endif

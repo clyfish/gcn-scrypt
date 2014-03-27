@@ -1,0 +1,194 @@
+#include "endian_swap.isa"
+#include "salsa.isa"
+#include "mod.isa"
+
+#define TC  5121
+#define TC128 655488
+#define TC128_MINUS_64 655424
+#define MOD mod_5121
+
+endian_swap(v36, s8, v2)
+endian_swap(v37, s8, v2)
+endian_swap(v38, s8, v2)
+endian_swap(v39, s8, v2)
+endian_swap(v40, s8, v2)
+endian_swap(v41, s8, v2)
+endian_swap(v42, s8, v2)
+endian_swap(v43, s8, v2)
+endian_swap(v44, s8, v2)
+endian_swap(v45, s8, v2)
+endian_swap(v46, s8, v2)
+endian_swap(v47, s8, v2)
+endian_swap(v48, s8, v2)
+endian_swap(v49, s8, v2)
+endian_swap(v50, s8, v2)
+endian_swap(v51, s8, v2)
+endian_swap(v52, s8, v2)
+endian_swap(v53, s8, v2)
+endian_swap(v54, s8, v2)
+endian_swap(v55, s8, v2)
+endian_swap(v56, s8, v2)
+endian_swap(v57, s8, v2)
+endian_swap(v58, s8, v2)
+endian_swap(v59, s8, v2)
+endian_swap(v60, s8, v2)
+endian_swap(v61, s8, v2)
+endian_swap(v62, s8, v2)
+endian_swap(v63, s8, v2)
+endian_swap(v64, s8, v2)
+endian_swap(v65, s8, v2)
+endian_swap(v66, s8, v2)
+endian_swap(v67, s8, v2)
+
+MOD(2, 3, v0, s8)
+v_lshlrev_b32   v2, 7, v2
+v_add_i32       v2, s14, v2
+
+s_movk_i32      s8, 0x0200
+s_mov_b32       s9, TC128_MINUS_64
+v_mov_b32       v3, v2
+label_0:
+    tbuffer_store_format_xyzw  v[36:39], v3, s[0:3], 0 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_store_format_xyzw  v[40:43], v3, s[0:3], 16 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_store_format_xyzw  v[44:47], v3, s[0:3], 32 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_store_format_xyzw  v[48:51], v3, s[0:3], 48 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    v_add_i32       v3, 64, v3
+    tbuffer_store_format_xyzw  v[52:55], v3, s[0:3], 0 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_store_format_xyzw  v[56:59], v3, s[0:3], 16 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_store_format_xyzw  v[60:63], v3, s[0:3], 32 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_store_format_xyzw  v[64:67], v3, s[0:3], 48 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    s_waitcnt       expcnt(0)
+
+    salsa(
+        v36, v37, v38, v39, v40, v41, v42, v43,
+        v44, v45, v46, v47, v48, v49, v50, v51,
+        v52, v53, v54, v55, v56, v57, v58, v59,
+        v60, v61, v62, v63, v64, v65, v66, v67,
+        v68, v69, v70, v71, v72, v73, v74, v75,
+        v76, v77, v78, v79, v80, v81, v82, v83,
+        v4
+    )
+    salsa(
+        v36, v37, v38, v39, v40, v41, v42, v43,
+        v44, v45, v46, v47, v48, v49, v50, v51,
+        v52, v53, v54, v55, v56, v57, v58, v59,
+        v60, v61, v62, v63, v64, v65, v66, v67,
+        v68, v69, v70, v71, v72, v73, v74, v75,
+        v76, v77, v78, v79, v80, v81, v82, v83,
+        v4
+    )
+    v_add_i32       v3, s9, v3
+s_sub_i32       s8, s8, 1
+s_cmp_gt_i32    s8, 0
+s_cbranch_scc1  label_0
+
+s_movk_i32      s8, 0x0400
+s_mov_b32       s9, TC128
+label_1:
+    v_bfe_u32       v3, v52, 1, 9
+    v_mul_i32_i24   v3, s9, v3
+    v_add_i32       v3, v3, v2
+    tbuffer_load_format_xyzw  v[4:7], v3, s[0:3], 0 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_load_format_xyzw  v[8:11], v3, s[0:3], 16 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_load_format_xyzw  v[12:15], v3, s[0:3], 32 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_load_format_xyzw  v[16:19], v3, s[0:3], 48 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    v_add_i32       v3, 64, v3
+    tbuffer_load_format_xyzw  v[20:23], v3, s[0:3], 0 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_load_format_xyzw  v[24:27], v3, s[0:3], 16 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_load_format_xyzw  v[28:31], v3, s[0:3], 32 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    tbuffer_load_format_xyzw  v[32:35], v3, s[0:3], 48 offen format:[BUF_DATA_FORMAT_32_32_32_32,BUF_NUM_FORMAT_FLOAT]
+    s_waitcnt       vmcnt(0)
+
+    v_and_b32           v3, 1, v52
+    v_cmp_ne_i32        vcc, 0, v3
+    s_and_saveexec_b64  s[10:11], vcc
+    salsa(
+        v4, v5, v6, v7, v8, v9, v10, v11,
+        v12, v13, v14, v15, v16, v17, v18, v19,
+        v20, v21, v22, v23, v24, v25, v26, v27,
+        v28, v29, v30, v31, v32, v33, v34, v35,
+        v68, v69, v70, v71, v72, v73, v74, v75,
+        v76, v77, v78, v79, v80, v81, v82, v83,
+        v3
+    )
+    label_2:
+    s_mov_b64           exec, s[10:11]
+
+    v_xor_b32   v36, v36, v4
+    v_xor_b32   v37, v37, v5
+    v_xor_b32   v38, v38, v6
+    v_xor_b32   v39, v39, v7
+    v_xor_b32   v40, v40, v8
+    v_xor_b32   v41, v41, v9
+    v_xor_b32   v42, v42, v10
+    v_xor_b32   v43, v43, v11
+    v_xor_b32   v44, v44, v12
+    v_xor_b32   v45, v45, v13
+    v_xor_b32   v46, v46, v14
+    v_xor_b32   v47, v47, v15
+    v_xor_b32   v48, v48, v16
+    v_xor_b32   v49, v49, v17
+    v_xor_b32   v50, v50, v18
+    v_xor_b32   v51, v51, v19
+    v_xor_b32   v52, v52, v20
+    v_xor_b32   v53, v53, v21
+    v_xor_b32   v54, v54, v22
+    v_xor_b32   v55, v55, v23
+    v_xor_b32   v56, v56, v24
+    v_xor_b32   v57, v57, v25
+    v_xor_b32   v58, v58, v26
+    v_xor_b32   v59, v59, v27
+    v_xor_b32   v60, v60, v28
+    v_xor_b32   v61, v61, v29
+    v_xor_b32   v62, v62, v30
+    v_xor_b32   v63, v63, v31
+    v_xor_b32   v64, v64, v32
+    v_xor_b32   v65, v65, v33
+    v_xor_b32   v66, v66, v34
+    v_xor_b32   v67, v67, v35
+    
+    salsa(
+        v36, v37, v38, v39, v40, v41, v42, v43,
+        v44, v45, v46, v47, v48, v49, v50, v51,
+        v52, v53, v54, v55, v56, v57, v58, v59,
+        v60, v61, v62, v63, v64, v65, v66, v67,
+        v68, v69, v70, v71, v72, v73, v74, v75,
+        v76, v77, v78, v79, v80, v81, v82, v83,
+        v3
+    )
+s_sub_i32       s8, s8, 1
+s_cmp_gt_i32    s8, 0
+s_cbranch_scc1  label_1
+
+endian_swap(v36, s8, v2)
+endian_swap(v37, s8, v2)
+endian_swap(v38, s8, v2)
+endian_swap(v39, s8, v2)
+endian_swap(v40, s8, v2)
+endian_swap(v41, s8, v2)
+endian_swap(v42, s8, v2)
+endian_swap(v43, s8, v2)
+endian_swap(v44, s8, v2)
+endian_swap(v45, s8, v2)
+endian_swap(v46, s8, v2)
+endian_swap(v47, s8, v2)
+endian_swap(v48, s8, v2)
+endian_swap(v49, s8, v2)
+endian_swap(v50, s8, v2)
+endian_swap(v51, s8, v2)
+endian_swap(v52, s8, v2)
+endian_swap(v53, s8, v2)
+endian_swap(v54, s8, v2)
+endian_swap(v55, s8, v2)
+endian_swap(v56, s8, v2)
+endian_swap(v57, s8, v2)
+endian_swap(v58, s8, v2)
+endian_swap(v59, s8, v2)
+endian_swap(v60, s8, v2)
+endian_swap(v61, s8, v2)
+endian_swap(v62, s8, v2)
+endian_swap(v63, s8, v2)
+endian_swap(v64, s8, v2)
+endian_swap(v65, s8, v2)
+endian_swap(v66, s8, v2)
+endian_swap(v67, s8, v2)

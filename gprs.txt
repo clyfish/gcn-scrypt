@@ -1,0 +1,29 @@
+s[0:3]:     base of padcache
+s[4:7]:     base of output
+s13:        0x00ff00ff
+s14:        offset of padcache
+s15:        offset of output
+s[16:19]:   input0
+s[20:23]:   input1
+s[24:27]:   input2
+s[28:31]:   input3
+s[32:35]:   input4  (input4.w == target)
+s[36:39]:   midstate0
+s[40:43]:   midstate16
+
+v0:         global_id
+v[4:35]:    X[8], B[8]
+v[36:51]:   w[4]
+v[52:83]:   V[8]
+v[52:55]:   S0
+v[56:59]:   S1
+v[60:63]:   pad0
+v[64:67]:   pad1
+v[68:71]:   pad2
+v[72:75]:   pad3
+v[76:79]:   tstate0
+v[80:83]:   tstate1
+v[84:87]:   ostate0
+v[88:91]:   ostate1
+v[92:95]:   tmp0
+v[96:99]:   tmp1

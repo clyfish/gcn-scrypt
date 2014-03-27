@@ -1,0 +1,318 @@
+#ifndef _SALSA_ROUND_ISA_
+#define _SALSA_ROUND_ISA_
+
+#define salsa_round( \
+    x0, x1, x2, x3, \
+    y0, y1, y2, y3, \
+    z0, z1, z2, z3, \
+    w0, w1, w2, w3, \
+    t \
+) \
+    ; salsa_round begin;; \
+    ; x0, x1, x2, x3,;; \
+    ; y0, y1, y2, y3,;; \
+    ; z0, z1, z2, z3,;; \
+    ; w0, w1, w2, w3,;; \
+    ; t;; \
+\
+    v_add_i32       t, x0, w0;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       y0, y0, t;; \
+    v_add_i32       t, y0, x0;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       z0, z0, t;; \
+    v_add_i32       t, z0, y0;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       w0, w0, t;; \
+    v_add_i32       t, w0, z0;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       x0, x0, t;; \
+\
+    v_add_i32       t, y1, x1;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       z1, z1, t;; \
+    v_add_i32       t, z1, y1;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       w1, w1, t;; \
+    v_add_i32       t, w1, z1;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       x1, x1, t;; \
+    v_add_i32       t, x1, w1;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       y1, y1, t;; \
+\
+    v_add_i32       t, z2, y2;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       w2, w2, t;; \
+    v_add_i32       t, w2, z2;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       x2, x2, t;; \
+    v_add_i32       t, x2, w2;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       y2, y2, t;; \
+    v_add_i32       t, y2, x2;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       z2, z2, t;; \
+\
+    v_add_i32       t, w3, z3;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       x3, x3, t;; \
+    v_add_i32       t, x3, w3;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       y3, y3, t;; \
+    v_add_i32       t, y3, x3;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       z3, z3, t;; \
+    v_add_i32       t, z3, y3;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       w3, w3, t;; \
+\
+\
+    v_add_i32       t, x0, x3;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       x1, x1, t;; \
+    v_add_i32       t, x1, x0;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       x2, x2, t;; \
+    v_add_i32       t, x2, x1;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       x3, x3, t;; \
+    v_add_i32       t, x3, x2;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       x0, x0, t;; \
+\
+    v_add_i32       t, y1, y0;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       y2, y2, t;; \
+    v_add_i32       t, y2, y1;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       y3, y3, t;; \
+    v_add_i32       t, y3, y2;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       y0, y0, t;; \
+    v_add_i32       t, y0, y3;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       y1, y1, t;; \
+\
+    v_add_i32       t, z2, z1;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       z3, z3, t;; \
+    v_add_i32       t, z3, z2;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       z0, z0, t;; \
+    v_add_i32       t, z0, z3;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       z1, z1, t;; \
+    v_add_i32       t, z1, z0;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       z2, z2, t;; \
+\
+    v_add_i32       t, w3, w2;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       w0, w0, t;; \
+    v_add_i32       t, w0, w3;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       w1, w1, t;; \
+    v_add_i32       t, w1, w0;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       w2, w2, t;; \
+    v_add_i32       t, w2, w1;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       w3, w3, t;; \
+\
+    ; salsa_round end
+
+#define salsa_first_round( \
+    x0, x1, x2, x3, \
+    y0, y1, y2, y3, \
+    z0, z1, z2, z3, \
+    w0, w1, w2, w3, \
+    a0, a1, a2, a3, \
+    b0, b1, b2, b3, \
+    c0, c1, c2, c3, \
+    d0, d1, d2, d3, \
+    t \
+) \
+    ; salsa_first_round begin;; \
+    ; x0, x1, x2, x3,;; \
+    ; y0, y1, y2, y3,;; \
+    ; z0, z1, z2, z3,;; \
+    ; w0, w1, w2, w3,;; \
+    ; a0, a1, a2, a3,;; \
+    ; b0, b1, b2, b3,;; \
+    ; c0, c1, c2, c3,;; \
+    ; d0, d1, d2, d3,;; \
+    ; t;; \
+\
+    v_add_i32       t, a0, d0;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       y0, b0, t;; \
+    v_add_i32       t, y0, a0;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       z0, c0, t;; \
+    v_add_i32       t, z0, y0;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       w0, d0, t;; \
+    v_add_i32       t, w0, z0;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       x0, a0, t;; \
+\
+    v_add_i32       t, b1, a1;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       z1, c1, t;; \
+    v_add_i32       t, z1, b1;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       w1, d1, t;; \
+    v_add_i32       t, w1, z1;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       x1, a1, t;; \
+    v_add_i32       t, x1, w1;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       y1, b1, t;; \
+\
+    v_add_i32       t, c2, b2;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       w2, d2, t;; \
+    v_add_i32       t, w2, c2;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       x2, a2, t;; \
+    v_add_i32       t, x2, w2;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       y2, b2, t;; \
+    v_add_i32       t, y2, x2;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       z2, c2, t;; \
+\
+    v_add_i32       t, d3, c3;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       x3, a3, t;; \
+    v_add_i32       t, x3, d3;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       y3, b3, t;; \
+    v_add_i32       t, y3, x3;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       z3, c3, t;; \
+    v_add_i32       t, z3, y3;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       w3, d3, t;; \
+\
+\
+    v_add_i32       t, x0, x3;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       x1, x1, t;; \
+    v_add_i32       t, x1, x0;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       x2, x2, t;; \
+    v_add_i32       t, x2, x1;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       x3, x3, t;; \
+    v_add_i32       t, x3, x2;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       x0, x0, t;; \
+\
+    v_add_i32       t, y1, y0;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       y2, y2, t;; \
+    v_add_i32       t, y2, y1;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       y3, y3, t;; \
+    v_add_i32       t, y3, y2;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       y0, y0, t;; \
+    v_add_i32       t, y0, y3;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       y1, y1, t;; \
+\
+    v_add_i32       t, z2, z1;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       z3, z3, t;; \
+    v_add_i32       t, z3, z2;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       z0, z0, t;; \
+    v_add_i32       t, z0, z3;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       z1, z1, t;; \
+    v_add_i32       t, z1, z0;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       z2, z2, t;; \
+\
+    v_add_i32       t, w3, w2;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       w0, w0, t;; \
+    v_add_i32       t, w0, w3;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       w1, w1, t;; \
+    v_add_i32       t, w1, w0;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       w2, w2, t;; \
+    v_add_i32       t, w2, w1;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       w3, w3, t;; \
+\
+    ; salsa_first_round end
+
+#define salsa_x0_round( \
+    x0, x1, x2, x3, \
+    y0, y1, y2, y3, \
+    z0, z1, z2, z3, \
+    w0, w1, w2, w3, \
+    t \
+) \
+    ; salsa_x0_round begin;; \
+    ; x0, x1, x2, x3,;; \
+    ; y0, y1, y2, y3,;; \
+    ; z0, z1, z2, z3,;; \
+    ; w0, w1, w2, w3,;; \
+    ; t;; \
+\
+    v_add_i32       t, x0, w0;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       y0, y0, t;; \
+    v_add_i32       t, y0, x0;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       z0, z0, t;; \
+    v_add_i32       t, z0, y0;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       w0, w0, t;; \
+    v_add_i32       t, w0, z0;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       x0, x0, t;; \
+\
+    v_add_i32       t, y1, x1;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       z1, z1, t;; \
+    v_add_i32       t, z1, y1;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       w1, w1, t;; \
+    v_add_i32       t, w1, z1;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       x1, x1, t;; \
+\
+    v_add_i32       t, z2, y2;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       w2, w2, t;; \
+    v_add_i32       t, w2, z2;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       x2, x2, t;; \
+\
+    v_add_i32       t, w3, z3;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       x3, x3, t;; \
+\
+\
+    v_add_i32       t, x0, x3;; \
+    v_alignbit_b32  t, t, t, 25;; \
+    v_xor_b32       x1, x1, t;; \
+    v_add_i32       t, x1, x0;; \
+    v_alignbit_b32  t, t, t, 23;; \
+    v_xor_b32       x2, x2, t;; \
+    v_add_i32       t, x2, x1;; \
+    v_alignbit_b32  t, t, t, 19;; \
+    v_xor_b32       x3, x3, t;; \
+    v_add_i32       t, x3, x2;; \
+    v_alignbit_b32  t, t, t, 14;; \
+    v_xor_b32       x0, x0, t;; \
+\
+    ; salsa_x0_round end
+
+#endif

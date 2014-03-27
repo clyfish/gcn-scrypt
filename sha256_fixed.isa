@@ -1,0 +1,111 @@
+#ifndef _SHA256_FIXED_ISA_
+#define _SHA256_FIXED_ISA_
+
+#include "rnd.isa"
+#include "const.isa"
+
+#define sha256_fixed( \
+    k0, k1, k2, k3, k4, k5, k6, k7, \
+    x0, x1, x2, x3, x4, x5, x6, x7, \
+    t0, t1 \
+) \
+    ; sha256_fixed begin;; \
+    ; k0, k1, k2, k3, k4, k5, k6, k7,;; \
+    ; x0, x1, x2, x3, x4, x5, x6, x7,;; \
+    ; t0, t1;; \
+\
+    v_mov_b32   x0, k0;; \
+    v_mov_b32   x1, k1;; \
+    v_mov_b32   x2, k2;; \
+    v_mov_b32   x3, k3;; \
+    v_mov_b32   x4, k4;; \
+    v_mov_b32   x5, k5;; \
+    v_mov_b32   x6, k6;; \
+    v_mov_b32   x7, k7;; \
+\
+\
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, W0, t0, t1);; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, W1, t0, t1);; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, W2, t0, t1);; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, W3, t0, t1);; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, W4, t0, t1);; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, W5, t0, t1);; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, W6, t0, t1);; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, W7, t0, t1);; \
+\
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, W8, t0, t1);; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, W9, t0, t1);; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, W10, t0, t1);; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, W11, t0, t1);; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, W12, t0, t1);; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, W13, t0, t1);; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, W14, t0, t1);; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, W15, t0, t1);; \
+\
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, W16, t0, t1);; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, W17, t0, t1);; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, W18, t0, t1);; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, W19, t0, t1);; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, W20, t0, t1);; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, W21, t0, t1);; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, W22, t0, t1);; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, W23, t0, t1);; \
+\
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, W24, t0, t1);; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, W25, t0, t1);; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, W26, t0, t1);; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, W27, t0, t1);; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, W28, t0, t1);; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, W29, t0, t1);; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, W30, t0, t1);; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, W31, t0, t1);; \
+\
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, W32, t0, t1);; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, W33, t0, t1);; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, W34, t0, t1);; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, W35, t0, t1);; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, W36, t0, t1);; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, W37, t0, t1);; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, W38, t0, t1);; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, W39, t0, t1);; \
+\
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, W40, t0, t1);; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, W41, t0, t1);; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, W42, t0, t1);; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, W43, t0, t1);; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, W44, t0, t1);; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, W45, t0, t1);; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, W46, t0, t1);; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, W47, t0, t1);; \
+\
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, W48, t0, t1);; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, W49, t0, t1);; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, W50, t0, t1);; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, W51, t0, t1);; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, W52, t0, t1);; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, W53, t0, t1);; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, W54, t0, t1);; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, W55, t0, t1);; \
+\
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, W56, t0, t1);; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, W57, t0, t1);; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, W58, t0, t1);; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, W59, t0, t1);; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, W60, t0, t1);; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, W61, t0, t1);; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, W62, t0, t1);; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, W63, t0, t1);; \
+\
+\
+    v_add_i32   k0, k0, x0;; \
+    v_add_i32   k1, k1, x1;; \
+    v_add_i32   k2, k2, x2;; \
+    v_add_i32   k3, k3, x3;; \
+    v_add_i32   k4, k4, x4;; \
+    v_add_i32   k5, k5, x5;; \
+    v_add_i32   k6, k6, x6;; \
+    v_add_i32   k7, k7, x7;; \
+\
+    ; sha256_fixed end
+
+#endif

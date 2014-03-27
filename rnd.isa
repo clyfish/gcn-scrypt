@@ -1,0 +1,53 @@
+#ifndef _RND_ISA_
+#define _RND_ISA_
+
+#define rnd(a, b, c, d, e, f, g, h, k, t0, t1) \
+    ; rnd begin;; \
+    ; a, b, c, d, e, f, g, h, k, t0, t1;; \
+\
+    v_alignbit_b32  t0, e, e, 6;; \
+    v_alignbit_b32  t1, e, e, 11;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_alignbit_b32  t1, e, e, 25;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       h, h, t0;; \
+\
+    v_bfi_b32       t0, e, f, g;; \
+    v_add_i32       h, h, t0;; \
+    v_add_i32       h, k, h;; \
+    v_add_i32       d, d, h;; \
+\
+    v_alignbit_b32  t0, a, a, 2;; \
+    v_alignbit_b32  t1, a, a, 13;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_alignbit_b32  t1, a, a, 22;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       h, h, t0;; \
+\
+    v_xor_b32       t0, a, c;; \
+    v_bfi_b32       t1, t0, b, c;; \
+    v_add_i32       h, h, t1;; \
+    ; rnd end
+
+#define wr(a, b, c, d, t0, t1) \
+    ; wr begin;; \
+    ; a, b, c, d, t0, t1;; \
+    v_alignbit_b32  t0, b, b, 17;; \
+    v_alignbit_b32  t1, b, b, 19;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_lshrrev_b32   t1, 10, b;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       a, a, t0;; \
+\
+    v_add_i32       a, c, a;; \
+\
+    v_alignbit_b32  t0, d, d, 7;; \
+    v_alignbit_b32  t1, d, d, 18;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_lshrrev_b32   t1, 3, d;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       a, a, t0;; \
+\
+    ; wr end
+
+#endif

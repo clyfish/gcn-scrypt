@@ -1,0 +1,706 @@
+#ifndef _SALSA_ISA_
+#define _SALSA_ISA_
+
+#include "salsa_round.isa"
+
+#define salsa( \
+    a0, a1, a2, a3, \
+    b0, b1, b2, b3, \
+    c0, c1, c2, c3, \
+    d0, d1, d2, d3, \
+    e0, e1, e2, e3, \
+    f0, f1, f2, f3, \
+    g0, g1, g2, g3, \
+    h0, h1, h2, h3, \
+    x0, x1, x2, x3, \
+    y0, y1, y2, y3, \
+    z0, z1, z2, z3, \
+    w0, w1, w2, w3, \
+    t \
+) \
+    ; salsa begin;; \
+    ; a0, a1, a2, a3,;; \
+    ; b0, b1, b2, b3,;; \
+    ; c0, c1, c2, c3,;; \
+    ; d0, d1, d2, d3,;; \
+    ; e0, e1, e2, e3,;; \
+    ; f0, f1, f2, f3,;; \
+    ; g0, g1, g2, g3,;; \
+    ; h0, h1, h2, h3,;; \
+    ; x0, x1, x2, x3,;; \
+    ; y0, y1, y2, y3,;; \
+    ; z0, z1, z2, z3,;; \
+    ; w0, w1, w2, w3,;; \
+    ; t;; \
+\
+    v_xor_b32   a0, a0, e0;; \
+    v_xor_b32   a1, a1, e1;; \
+    v_xor_b32   a2, a2, e2;; \
+    v_xor_b32   a3, a3, e3;; \
+    v_xor_b32   b0, b0, f0;; \
+    v_xor_b32   b1, b1, f1;; \
+    v_xor_b32   b2, b2, f2;; \
+    v_xor_b32   b3, b3, f3;; \
+    v_xor_b32   c0, c0, g0;; \
+    v_xor_b32   c1, c1, g1;; \
+    v_xor_b32   c2, c2, g2;; \
+    v_xor_b32   c3, c3, g3;; \
+    v_xor_b32   d0, d0, h0;; \
+    v_xor_b32   d1, d1, h1;; \
+    v_xor_b32   d2, d2, h2;; \
+    v_xor_b32   d3, d3, h3;; \
+\
+    salsa_first_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        a0, a1, a2, a3, \
+        b0, b1, b2, b3, \
+        c0, c1, c2, c3, \
+        d0, d1, d2, d3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+\
+    v_add_i32   a0, a0, x0;; \
+    v_add_i32   a1, a1, x1;; \
+    v_add_i32   a2, a2, x2;; \
+    v_add_i32   a3, a3, x3;; \
+    v_add_i32   b0, b0, y0;; \
+    v_add_i32   b1, b1, y1;; \
+    v_add_i32   b2, b2, y2;; \
+    v_add_i32   b3, b3, y3;; \
+    v_add_i32   c0, c0, z0;; \
+    v_add_i32   c1, c1, z1;; \
+    v_add_i32   c2, c2, z2;; \
+    v_add_i32   c3, c3, z3;; \
+    v_add_i32   d0, d0, w0;; \
+    v_add_i32   d1, d1, w1;; \
+    v_add_i32   d2, d2, w2;; \
+    v_add_i32   d3, d3, w3;; \
+\
+\
+    v_xor_b32   e0, e0, a0;; \
+    v_xor_b32   e1, e1, a1;; \
+    v_xor_b32   e2, e2, a2;; \
+    v_xor_b32   e3, e3, a3;; \
+    v_xor_b32   f0, f0, b0;; \
+    v_xor_b32   f1, f1, b1;; \
+    v_xor_b32   f2, f2, b2;; \
+    v_xor_b32   f3, f3, b3;; \
+    v_xor_b32   g0, g0, c0;; \
+    v_xor_b32   g1, g1, c1;; \
+    v_xor_b32   g2, g2, c2;; \
+    v_xor_b32   g3, g3, c3;; \
+    v_xor_b32   h0, h0, d0;; \
+    v_xor_b32   h1, h1, d1;; \
+    v_xor_b32   h2, h2, d2;; \
+    v_xor_b32   h3, h3, d3;; \
+\
+    salsa_first_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        e0, e1, e2, e3, \
+        f0, f1, f2, f3, \
+        g0, g1, g2, g3, \
+        h0, h1, h2, h3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+\
+    v_add_i32   e0, e0, x0;; \
+    v_add_i32   e1, e1, x1;; \
+    v_add_i32   e2, e2, x2;; \
+    v_add_i32   e3, e3, x3;; \
+    v_add_i32   f0, f0, y0;; \
+    v_add_i32   f1, f1, y1;; \
+    v_add_i32   f2, f2, y2;; \
+    v_add_i32   f3, f3, y3;; \
+    v_add_i32   g0, g0, z0;; \
+    v_add_i32   g1, g1, z1;; \
+    v_add_i32   g2, g2, z2;; \
+    v_add_i32   g3, g3, z3;; \
+    v_add_i32   h0, h0, w0;; \
+    v_add_i32   h1, h1, w1;; \
+    v_add_i32   h2, h2, w2;; \
+    v_add_i32   h3, h3, w3;; \
+\
+    ; salsa end
+
+#define salsa_e0( \
+    a0, a1, a2, a3, \
+    b0, b1, b2, b3, \
+    c0, c1, c2, c3, \
+    d0, d1, d2, d3, \
+    e0, e1, e2, e3, \
+    f0, f1, f2, f3, \
+    g0, g1, g2, g3, \
+    h0, h1, h2, h3, \
+    x0, x1, x2, x3, \
+    y0, y1, y2, y3, \
+    z0, z1, z2, z3, \
+    w0, w1, w2, w3, \
+    t \
+) \
+    ; salsa_e0 begin;; \
+    ; a0, a1, a2, a3,;; \
+    ; b0, b1, b2, b3,;; \
+    ; c0, c1, c2, c3,;; \
+    ; d0, d1, d2, d3,;; \
+    ; e0, e1, e2, e3,;; \
+    ; f0, f1, f2, f3,;; \
+    ; g0, g1, g2, g3,;; \
+    ; h0, h1, h2, h3,;; \
+    ; x0, x1, x2, x3,;; \
+    ; y0, y1, y2, y3,;; \
+    ; z0, z1, z2, z3,;; \
+    ; w0, w1, w2, w3,;; \
+    ; t;; \
+\
+    v_xor_b32   a0, a0, e0;; \
+    v_xor_b32   a1, a1, e1;; \
+    v_xor_b32   a2, a2, e2;; \
+    v_xor_b32   a3, a3, e3;; \
+    v_xor_b32   b0, b0, f0;; \
+    v_xor_b32   b1, b1, f1;; \
+    v_xor_b32   b2, b2, f2;; \
+    v_xor_b32   b3, b3, f3;; \
+    v_xor_b32   c0, c0, g0;; \
+    v_xor_b32   c1, c1, g1;; \
+    v_xor_b32   c2, c2, g2;; \
+    v_xor_b32   c3, c3, g3;; \
+    v_xor_b32   d0, d0, h0;; \
+    v_xor_b32   d1, d1, h1;; \
+    v_xor_b32   d2, d2, h2;; \
+    v_xor_b32   d3, d3, h3;; \
+\
+    salsa_first_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        a0, a1, a2, a3, \
+        b0, b1, b2, b3, \
+        c0, c1, c2, c3, \
+        d0, d1, d2, d3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+\
+    v_add_i32   a0, a0, x0;; \
+    v_add_i32   a1, a1, x1;; \
+    v_add_i32   a2, a2, x2;; \
+    v_add_i32   a3, a3, x3;; \
+    v_add_i32   b0, b0, y0;; \
+    v_add_i32   b1, b1, y1;; \
+    v_add_i32   b2, b2, y2;; \
+    v_add_i32   b3, b3, y3;; \
+    v_add_i32   c0, c0, z0;; \
+    v_add_i32   c1, c1, z1;; \
+    v_add_i32   c2, c2, z2;; \
+    v_add_i32   c3, c3, z3;; \
+    v_add_i32   d0, d0, w0;; \
+    v_add_i32   d1, d1, w1;; \
+    v_add_i32   d2, d2, w2;; \
+    v_add_i32   d3, d3, w3;; \
+\
+\
+    v_xor_b32   e0, e0, a0;; \
+    v_xor_b32   e1, e1, a1;; \
+    v_xor_b32   e2, e2, a2;; \
+    v_xor_b32   e3, e3, a3;; \
+    v_xor_b32   f0, f0, b0;; \
+    v_xor_b32   f1, f1, b1;; \
+    v_xor_b32   f2, f2, b2;; \
+    v_xor_b32   f3, f3, b3;; \
+    v_xor_b32   g0, g0, c0;; \
+    v_xor_b32   g1, g1, c1;; \
+    v_xor_b32   g2, g2, c2;; \
+    v_xor_b32   g3, g3, c3;; \
+    v_xor_b32   h0, h0, d0;; \
+    v_xor_b32   h1, h1, d1;; \
+    v_xor_b32   h2, h2, d2;; \
+    v_xor_b32   h3, h3, d3;; \
+\
+    salsa_first_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        e0, e1, e2, e3, \
+        f0, f1, f2, f3, \
+        g0, g1, g2, g3, \
+        h0, h1, h2, h3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_x0_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+\
+    v_add_i32   e0, e0, x0;; \
+\
+    ; salsa_e0 end
+
+#define salsa_to( \
+    a0, a1, a2, a3, \
+    b0, b1, b2, b3, \
+    c0, c1, c2, c3, \
+    d0, d1, d2, d3, \
+    e0, e1, e2, e3, \
+    f0, f1, f2, f3, \
+    g0, g1, g2, g3, \
+    h0, h1, h2, h3, \
+    sa0, sa1, sa2, sa3, \
+    sb0, sb1, sb2, sb3, \
+    sc0, sc1, sc2, sc3, \
+    sd0, sd1, sd2, sd3, \
+    se0, se1, se2, se3, \
+    sf0, sf1, sf2, sf3, \
+    sg0, sg1, sg2, sg3, \
+    sh0, sh1, sh2, sh3, \
+    x0, x1, x2, x3, \
+    y0, y1, y2, y3, \
+    z0, z1, z2, z3, \
+    w0, w1, w2, w3, \
+    t \
+) \
+    ; salsa_to begin;; \
+    ; a0, a1, a2, a3,;; \
+    ; b0, b1, b2, b3,;; \
+    ; c0, c1, c2, c3,;; \
+    ; d0, d1, d2, d3,;; \
+    ; e0, e1, e2, e3,;; \
+    ; f0, f1, f2, f3,;; \
+    ; g0, g1, g2, g3,;; \
+    ; h0, h1, h2, h3,;; \
+    ; sa0, sa1, sa2, sa3,;; \
+    ; sb0, sb1, sb2, sb3,;; \
+    ; sc0, sc1, sc2, sc3,;; \
+    ; sd0, sd1, sd2, sd3,;; \
+    ; se0, se1, se2, se3,;; \
+    ; sf0, sf1, sf2, sf3,;; \
+    ; sg0, sg1, sg2, sg3,;; \
+    ; sh0, sh1, sh2, sh3,;; \
+    ; x0, x1, x2, x3,;; \
+    ; y0, y1, y2, y3,;; \
+    ; z0, z1, z2, z3,;; \
+    ; w0, w1, w2, w3,;; \
+    ; t;; \
+\
+    v_xor_b32   a0, sa0, se0;; \
+    v_xor_b32   a1, sa1, se1;; \
+    v_xor_b32   a2, sa2, se2;; \
+    v_xor_b32   a3, sa3, se3;; \
+    v_xor_b32   b0, sb0, sf0;; \
+    v_xor_b32   b1, sb1, sf1;; \
+    v_xor_b32   b2, sb2, sf2;; \
+    v_xor_b32   b3, sb3, sf3;; \
+    v_xor_b32   c0, sc0, sg0;; \
+    v_xor_b32   c1, sc1, sg1;; \
+    v_xor_b32   c2, sc2, sg2;; \
+    v_xor_b32   c3, sc3, sg3;; \
+    v_xor_b32   d0, sd0, sh0;; \
+    v_xor_b32   d1, sd1, sh1;; \
+    v_xor_b32   d2, sd2, sh2;; \
+    v_xor_b32   d3, sd3, sh3;; \
+\
+    salsa_first_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        a0, a1, a2, a3, \
+        b0, b1, b2, b3, \
+        c0, c1, c2, c3, \
+        d0, d1, d2, d3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+\
+    v_add_i32   a0, a0, x0;; \
+    v_add_i32   a1, a1, x1;; \
+    v_add_i32   a2, a2, x2;; \
+    v_add_i32   a3, a3, x3;; \
+    v_add_i32   b0, b0, y0;; \
+    v_add_i32   b1, b1, y1;; \
+    v_add_i32   b2, b2, y2;; \
+    v_add_i32   b3, b3, y3;; \
+    v_add_i32   c0, c0, z0;; \
+    v_add_i32   c1, c1, z1;; \
+    v_add_i32   c2, c2, z2;; \
+    v_add_i32   c3, c3, z3;; \
+    v_add_i32   d0, d0, w0;; \
+    v_add_i32   d1, d1, w1;; \
+    v_add_i32   d2, d2, w2;; \
+    v_add_i32   d3, d3, w3;; \
+\
+\
+    v_xor_b32   e0, se0, a0;; \
+    v_xor_b32   e1, se1, a1;; \
+    v_xor_b32   e2, se2, a2;; \
+    v_xor_b32   e3, se3, a3;; \
+    v_xor_b32   f0, sf0, b0;; \
+    v_xor_b32   f1, sf1, b1;; \
+    v_xor_b32   f2, sf2, b2;; \
+    v_xor_b32   f3, sf3, b3;; \
+    v_xor_b32   g0, sg0, c0;; \
+    v_xor_b32   g1, sg1, c1;; \
+    v_xor_b32   g2, sg2, c2;; \
+    v_xor_b32   g3, sg3, c3;; \
+    v_xor_b32   h0, sh0, d0;; \
+    v_xor_b32   h1, sh1, d1;; \
+    v_xor_b32   h2, sh2, d2;; \
+    v_xor_b32   h3, sh3, d3;; \
+\
+    salsa_first_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        e0, e1, e2, e3, \
+        f0, f1, f2, f3, \
+        g0, g1, g2, g3, \
+        h0, h1, h2, h3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+\
+    v_add_i32   e0, e0, x0;; \
+    v_add_i32   e1, e1, x1;; \
+    v_add_i32   e2, e2, x2;; \
+    v_add_i32   e3, e3, x3;; \
+    v_add_i32   f0, f0, y0;; \
+    v_add_i32   f1, f1, y1;; \
+    v_add_i32   f2, f2, y2;; \
+    v_add_i32   f3, f3, y3;; \
+    v_add_i32   g0, g0, z0;; \
+    v_add_i32   g1, g1, z1;; \
+    v_add_i32   g2, g2, z2;; \
+    v_add_i32   g3, g3, z3;; \
+    v_add_i32   h0, h0, w0;; \
+    v_add_i32   h1, h1, w1;; \
+    v_add_i32   h2, h2, w2;; \
+    v_add_i32   h3, h3, w3;; \
+\
+    ; salsa_to end
+
+#define salsa_half0( \
+    a0, a1, a2, a3, \
+    b0, b1, b2, b3, \
+    c0, c1, c2, c3, \
+    d0, d1, d2, d3, \
+    e0, e1, e2, e3, \
+    f0, f1, f2, f3, \
+    g0, g1, g2, g3, \
+    h0, h1, h2, h3, \
+    x0, x1, x2, x3, \
+    y0, y1, y2, y3, \
+    z0, z1, z2, z3, \
+    w0, w1, w2, w3, \
+    t \
+) \
+    ; salsa_half0 begin;; \
+    ; a0, a1, a2, a3,;; \
+    ; b0, b1, b2, b3,;; \
+    ; c0, c1, c2, c3,;; \
+    ; d0, d1, d2, d3,;; \
+    ; e0, e1, e2, e3,;; \
+    ; f0, f1, f2, f3,;; \
+    ; g0, g1, g2, g3,;; \
+    ; h0, h1, h2, h3,;; \
+    ; x0, x1, x2, x3,;; \
+    ; y0, y1, y2, y3,;; \
+    ; z0, z1, z2, z3,;; \
+    ; w0, w1, w2, w3,;; \
+    ; t;; \
+\
+    v_xor_b32   a0, a0, e0;; \
+    v_xor_b32   a1, a1, e1;; \
+    v_xor_b32   a2, a2, e2;; \
+    v_xor_b32   a3, a3, e3;; \
+    v_xor_b32   b0, b0, f0;; \
+    v_xor_b32   b1, b1, f1;; \
+    v_xor_b32   b2, b2, f2;; \
+    v_xor_b32   b3, b3, f3;; \
+    v_xor_b32   c0, c0, g0;; \
+    v_xor_b32   c1, c1, g1;; \
+    v_xor_b32   c2, c2, g2;; \
+    v_xor_b32   c3, c3, g3;; \
+    v_xor_b32   d0, d0, h0;; \
+    v_xor_b32   d1, d1, h1;; \
+    v_xor_b32   d2, d2, h2;; \
+    v_xor_b32   d3, d3, h3;; \
+\
+    salsa_first_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        a0, a1, a2, a3, \
+        b0, b1, b2, b3, \
+        c0, c1, c2, c3, \
+        d0, d1, d2, d3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+\
+    v_add_i32   a0, a0, x0;; \
+    v_add_i32   a1, a1, x1;; \
+    v_add_i32   a2, a2, x2;; \
+    v_add_i32   a3, a3, x3;; \
+    v_add_i32   b0, b0, y0;; \
+    v_add_i32   b1, b1, y1;; \
+    v_add_i32   b2, b2, y2;; \
+    v_add_i32   b3, b3, y3;; \
+    v_add_i32   c0, c0, z0;; \
+    v_add_i32   c1, c1, z1;; \
+    v_add_i32   c2, c2, z2;; \
+    v_add_i32   c3, c3, z3;; \
+    v_add_i32   d0, d0, w0;; \
+    v_add_i32   d1, d1, w1;; \
+    v_add_i32   d2, d2, w2;; \
+    v_add_i32   d3, d3, w3;; \
+\
+    ; salsa_half0 end
+
+#define salsa_half1( \
+    a0, a1, a2, a3, \
+    b0, b1, b2, b3, \
+    c0, c1, c2, c3, \
+    d0, d1, d2, d3, \
+    e0, e1, e2, e3, \
+    f0, f1, f2, f3, \
+    g0, g1, g2, g3, \
+    h0, h1, h2, h3, \
+    x0, x1, x2, x3, \
+    y0, y1, y2, y3, \
+    z0, z1, z2, z3, \
+    w0, w1, w2, w3, \
+    t \
+) \
+    ; salsa_harf1 begin;; \
+    ; a0, a1, a2, a3,;; \
+    ; b0, b1, b2, b3,;; \
+    ; c0, c1, c2, c3,;; \
+    ; d0, d1, d2, d3,;; \
+    ; e0, e1, e2, e3,;; \
+    ; f0, f1, f2, f3,;; \
+    ; g0, g1, g2, g3,;; \
+    ; h0, h1, h2, h3,;; \
+    ; x0, x1, x2, x3,;; \
+    ; y0, y1, y2, y3,;; \
+    ; z0, z1, z2, z3,;; \
+    ; w0, w1, w2, w3,;; \
+    ; t;; \
+\
+    v_xor_b32   e0, e0, a0;; \
+    v_xor_b32   e1, e1, a1;; \
+    v_xor_b32   e2, e2, a2;; \
+    v_xor_b32   e3, e3, a3;; \
+    v_xor_b32   f0, f0, b0;; \
+    v_xor_b32   f1, f1, b1;; \
+    v_xor_b32   f2, f2, b2;; \
+    v_xor_b32   f3, f3, b3;; \
+    v_xor_b32   g0, g0, c0;; \
+    v_xor_b32   g1, g1, c1;; \
+    v_xor_b32   g2, g2, c2;; \
+    v_xor_b32   g3, g3, c3;; \
+    v_xor_b32   h0, h0, d0;; \
+    v_xor_b32   h1, h1, d1;; \
+    v_xor_b32   h2, h2, d2;; \
+    v_xor_b32   h3, h3, d3;; \
+\
+    salsa_first_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        e0, e1, e2, e3, \
+        f0, f1, f2, f3, \
+        g0, g1, g2, g3, \
+        h0, h1, h2, h3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+    salsa_round( \
+        x0, x1, x2, x3, \
+        y0, y1, y2, y3, \
+        z0, z1, z2, z3, \
+        w0, w1, w2, w3, \
+        t \
+    );; \
+\
+    v_add_i32   e0, e0, x0;; \
+    v_add_i32   e1, e1, x1;; \
+    v_add_i32   e2, e2, x2;; \
+    v_add_i32   e3, e3, x3;; \
+    v_add_i32   f0, f0, y0;; \
+    v_add_i32   f1, f1, y1;; \
+    v_add_i32   f2, f2, y2;; \
+    v_add_i32   f3, f3, y3;; \
+    v_add_i32   g0, g0, z0;; \
+    v_add_i32   g1, g1, z1;; \
+    v_add_i32   g2, g2, z2;; \
+    v_add_i32   g3, g3, z3;; \
+    v_add_i32   h0, h0, w0;; \
+    v_add_i32   h1, h1, w1;; \
+    v_add_i32   h2, h2, w2;; \
+    v_add_i32   h3, h3, w3;; \
+\
+    ; salsa_half1 end
+
+#endif

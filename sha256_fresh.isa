@@ -1,0 +1,360 @@
+#ifndef _SHA256_FRESH_ISA_
+#define _SHA256_FRESH_ISA_
+
+#include "rnd.isa"
+#include "const.isa"
+
+#define sha256_fresh( \
+    x0, x1, x2, x3, x4, x5, x6, x7, \
+    m0, m1, m2, m3, m4, m5, m6, m7, \
+    n0, n1, n2, n3, n4, n5, n6, n7, \
+    y0, y1, y2, y3, y4, y5, y6, y7, \
+    z0, z1, z2, z3, z4, z5, z6, z7, \
+    t0, t1, s0 \
+) \
+    ; sha256_fresh begin;; \
+    ; x0, x1, x2, x3, x4, x5, x6, x7,;; \
+    ; m0, m1, m2, m3, m4, m5, m6, m7,;; \
+    ; n0, n1, n2, n3, n4, n5, n6, n7,;; \
+    ; y0, y1, y2, y3, y4, y5, y6, y7,;; \
+    ; z0, z1, z2, z3, z4, z5, z6, z7,;; \
+    ; t0, t1, s0;; \
+\
+    v_mov_b32   y0, m0;; \
+    v_add_i32   x3, K63, y0;; \
+    v_add_i32   x7, K64, y0;; \
+\
+\
+    v_mov_b32       y1, m1;; \
+    v_mov_b32       x2, m1;; \
+    v_add_i32       x2, K65, x2;; \
+    v_alignbit_b32  t0, x3, x3, 6;; \
+    v_alignbit_b32  t1, x3, x3, 11;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_alignbit_b32  t1, x3, x3, 25;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       x2, x2, t0;; \
+    s_mov_b32       s0, K66;; \
+    v_mov_b32       t0, K67;; \
+    v_bfi_b32       t0, x3, s0, t0;; \
+    v_add_i32       x2, x2, t0;; \
+\
+    v_add_i32       x6, K68, x2;; \
+    v_alignbit_b32  t0, x7, x7, 2;; \
+    v_alignbit_b32  t1, x7, x7, 13;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_alignbit_b32  t1, x7, x7, 22;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       x6, x6, t0;; \
+    s_mov_b32       s0, K69;; \
+    v_mov_b32       t0, K70;; \
+    v_bfi_b32       t0, x7, s0, t0;; \
+    v_add_i32       x6, x6, t0;; \
+\
+\
+    v_mov_b32       y2, m2;; \
+    v_mov_b32       x1, y2;; \
+    v_add_i32       x1, K71, x1;; \
+    v_alignbit_b32  t0, x2, x2, 6;; \
+    v_alignbit_b32  t1, x2, x2, 11;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_alignbit_b32  t1, x2, x2, 25;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       x1, x1, t0;; \
+    v_mov_b32       t0, K66;; \
+    v_bfi_b32       t0, x2, x3, t0;; \
+    v_add_i32       x1, x1, t0;; \
+\
+    v_add_i32       x5, K72, x1;; \
+    v_alignbit_b32  t0, x6, x6, 2;; \
+    v_alignbit_b32  t1, x6, x6, 13;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_alignbit_b32  t1, x6, x6, 22;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       x5, x5, t0;; \
+    v_mov_b32       t0, K73;; \
+    v_xor_b32       t1, x6, t0;; \
+    v_bfi_b32       t0, t1, x7, t0;; \
+    v_add_i32       x5, x5, t0;; \
+\
+\
+    v_mov_b32       y3, m3;; \
+    v_mov_b32       x0, y3;; \
+    v_add_i32       x0, K74, x0;; \
+    v_alignbit_b32  t0, x1, x1, 6;; \
+    v_alignbit_b32  t1, x1, x1, 11;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_alignbit_b32  t1, x1, x1, 25;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       x0, x0, t0;; \
+    v_bfi_b32       t0, x1, x2, x3;; \
+    v_add_i32       x0, x0, t0;; \
+\
+    v_add_i32       x4, K75, x0;; \
+    v_alignbit_b32  t0, x5, x5, 2;; \
+    v_alignbit_b32  t1, x5, x5, 13;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_alignbit_b32  t1, x5, x5, 22;; \
+    v_xor_b32       t0, t0, t1;; \
+    v_add_i32       x4, x4, t0;; \
+    v_xor_b32       t0, x5, x7;; \
+    v_bfi_b32       t0, t0, x6, x7;; \
+    v_add_i32       x4, x4, t0;; \
+\
+\
+    v_mov_b32   y4, m4;; \
+    v_add_i32   x3, x3, y4;; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, K4, t0, t1);; \
+\
+    v_mov_b32   y5, m5;; \
+    v_add_i32   x2, x2, y5;; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, K5, t0, t1);; \
+\
+    v_mov_b32   y6, m6;; \
+    v_add_i32   x1, x1, y6;; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, K6, t0, t1);; \
+\
+    v_mov_b32   y7, m7;; \
+    v_add_i32   x0, x0, y7;; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, K7, t0, t1);; \
+\
+    v_mov_b32   z0, n0;; \
+    v_add_i32   x7, x7, z0;; \
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, K8, t0, t1);; \
+\
+    v_mov_b32   z1, n1;; \
+    v_add_i32   x6, x6, z1;; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, K9, t0, t1);; \
+\
+    v_mov_b32   z2, n2;; \
+    v_add_i32   x5, x5, z2;; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, K10, t0, t1);; \
+\
+    v_mov_b32   z3, n3;; \
+    v_add_i32   x4, x4, z3;; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, K11, t0, t1);; \
+\
+    v_mov_b32   z4, n4;; \
+    v_add_i32   x3, x3, z4;; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, K12, t0, t1);; \
+\
+    v_mov_b32   z5, n5;; \
+    v_add_i32   x2, x2, z5;; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, K13, t0, t1);; \
+\
+    v_mov_b32   z6, n6;; \
+    v_add_i32   x1, x1, z6;; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, K14, t0, t1);; \
+\
+    v_mov_b32   z7, n7;; \
+    v_add_i32   x0, x0, z7;; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, K76, t0, t1);; \
+\
+\
+    wr(y0, z6, z1, y1, t0, t1);; \
+    v_add_i32   x7, x7, y0;; \
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, K15, t0, t1);; \
+\
+    wr(y1, z7, z2, y2, t0, t1);; \
+    v_add_i32   x6, x6, y1;; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, K16, t0, t1);; \
+\
+    wr(y2, y0, z3, y3, t0, t1);; \
+    v_add_i32   x5, x5, y2;; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, K17, t0, t1);; \
+\
+    wr(y3, y1, z4, y4, t0, t1);; \
+    v_add_i32   x4, x4, y3;; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, K18, t0, t1);; \
+\
+    wr(y4, y2, z5, y5, t0, t1);; \
+    v_add_i32   x3, x3, y4;; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, K19, t0, t1);; \
+\
+    wr(y5, y3, z6, y6, t0, t1);; \
+    v_add_i32   x2, x2, y5;; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, K20, t0, t1);; \
+\
+    wr(y6, y4, z7, y7, t0, t1);; \
+    v_add_i32   x1, x1, y6;; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, K21, t0, t1);; \
+\
+    wr(y7, y5, y0, z0, t0, t1);; \
+    v_add_i32   x0, x0, y7;; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, K22, t0, t1);; \
+\
+    wr(z0, y6, y1, z1, t0, t1);; \
+    v_add_i32   x7, x7, z0;; \
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, K23, t0, t1);; \
+\
+    wr(z1, y7, y2, z2, t0, t1);; \
+    v_add_i32   x6, x6, z1;; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, K24, t0, t1);; \
+\
+    wr(z2, z0, y3, z3, t0, t1);; \
+    v_add_i32   x5, x5, z2;; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, K25, t0, t1);; \
+\
+    wr(z3, z1, y4, z4, t0, t1);; \
+    v_add_i32   x4, x4, z3;; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, K26, t0, t1);; \
+\
+    wr(z4, z2, y5, z5, t0, t1);; \
+    v_add_i32   x3, x3, z4;; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, K27, t0, t1);; \
+\
+    wr(z5, z3, y6, z6, t0, t1);; \
+    v_add_i32   x2, x2, z5;; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, K28, t0, t1);; \
+\
+    wr(z6, z4, y7, z7, t0, t1);; \
+    v_add_i32   x1, x1, z6;; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, K29, t0, t1);; \
+\
+    wr(z7, z5, z0, y0, t0, t1);; \
+    v_add_i32   x0, x0, z7;; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, K30, t0, t1);; \
+\
+\
+    wr(y0, z6, z1, y1, t0, t1);; \
+    v_add_i32   x7, x7, y0;; \
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, K31, t0, t1);; \
+\
+    wr(y1, z7, z2, y2, t0, t1);; \
+    v_add_i32   x6, x6, y1;; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, K32, t0, t1);; \
+\
+    wr(y2, y0, z3, y3, t0, t1);; \
+    v_add_i32   x5, x5, y2;; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, K33, t0, t1);; \
+\
+    wr(y3, y1, z4, y4, t0, t1);; \
+    v_add_i32   x4, x4, y3;; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, K34, t0, t1);; \
+\
+    wr(y4, y2, z5, y5, t0, t1);; \
+    v_add_i32   x3, x3, y4;; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, K35, t0, t1);; \
+\
+    wr(y5, y3, z6, y6, t0, t1);; \
+    v_add_i32   x2, x2, y5;; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, K36, t0, t1);; \
+\
+    wr(y6, y4, z7, y7, t0, t1);; \
+    v_add_i32   x1, x1, y6;; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, K37, t0, t1);; \
+\
+    wr(y7, y5, y0, z0, t0, t1);; \
+    v_add_i32   x0, x0, y7;; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, K38, t0, t1);; \
+\
+    wr(z0, y6, y1, z1, t0, t1);; \
+    v_add_i32   x7, x7, z0;; \
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, K39, t0, t1);; \
+\
+    wr(z1, y7, y2, z2, t0, t1);; \
+    v_add_i32   x6, x6, z1;; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, K40, t0, t1);; \
+\
+    wr(z2, z0, y3, z3, t0, t1);; \
+    v_add_i32   x5, x5, z2;; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, K41, t0, t1);; \
+\
+    wr(z3, z1, y4, z4, t0, t1);; \
+    v_add_i32   x4, x4, z3;; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, K42, t0, t1);; \
+\
+    wr(z4, z2, y5, z5, t0, t1);; \
+    v_add_i32   x3, x3, z4;; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, K43, t0, t1);; \
+\
+    wr(z5, z3, y6, z6, t0, t1);; \
+    v_add_i32   x2, x2, z5;; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, K44, t0, t1);; \
+\
+    wr(z6, z4, y7, z7, t0, t1);; \
+    v_add_i32   x1, x1, z6;; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, K45, t0, t1);; \
+\
+    wr(z7, z5, z0, y0, t0, t1);; \
+    v_add_i32   x0, x0, z7;; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, K46, t0, t1);; \
+\
+\
+    wr(y0, z6, z1, y1, t0, t1);; \
+    v_add_i32   x7, x7, y0;; \
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, K47, t0, t1);; \
+\
+    wr(y1, z7, z2, y2, t0, t1);; \
+    v_add_i32   x6, x6, y1;; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, K48, t0, t1);; \
+\
+    wr(y2, y0, z3, y3, t0, t1);; \
+    v_add_i32   x5, x5, y2;; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, K49, t0, t1);; \
+\
+    wr(y3, y1, z4, y4, t0, t1);; \
+    v_add_i32   x4, x4, y3;; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, K50, t0, t1);; \
+\
+    wr(y4, y2, z5, y5, t0, t1);; \
+    v_add_i32   x3, x3, y4;; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, K51, t0, t1);; \
+\
+    wr(y5, y3, z6, y6, t0, t1);; \
+    v_add_i32   x2, x2, y5;; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, K52, t0, t1);; \
+\
+    wr(y6, y4, z7, y7, t0, t1);; \
+    v_add_i32   x1, x1, y6;; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, K53, t0, t1);; \
+\
+    wr(y7, y5, y0, z0, t0, t1);; \
+    v_add_i32   x0, x0, y7;; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, K54, t0, t1);; \
+\
+    wr(z0, y6, y1, z1, t0, t1);; \
+    v_add_i32   x7, x7, z0;; \
+    rnd(x0, x1, x2, x3, x4, x5, x6, x7, K55, t0, t1);; \
+\
+    wr(z1, y7, y2, z2, t0, t1);; \
+    v_add_i32   x6, x6, z1;; \
+    rnd(x7, x0, x1, x2, x3, x4, x5, x6, K56, t0, t1);; \
+\
+    wr(z2, z0, y3, z3, t0, t1);; \
+    v_add_i32   x5, x5, z2;; \
+    rnd(x6, x7, x0, x1, x2, x3, x4, x5, K57, t0, t1);; \
+\
+    wr(z3, z1, y4, z4, t0, t1);; \
+    v_add_i32   x4, x4, z3;; \
+    rnd(x5, x6, x7, x0, x1, x2, x3, x4, K58, t0, t1);; \
+\
+    wr(z4, z2, y5, z5, t0, t1);; \
+    v_add_i32   x3, x3, z4;; \
+    rnd(x4, x5, x6, x7, x0, x1, x2, x3, K59, t0, t1);; \
+\
+    wr(z5, z3, y6, z6, t0, t1);; \
+    v_add_i32   x2, x2, z5;; \
+    rnd(x3, x4, x5, x6, x7, x0, x1, x2, K60, t0, t1);; \
+\
+    wr(z6, z4, y7, z7, t0, t1);; \
+    v_add_i32   x1, x1, z6;; \
+    rnd(x2, x3, x4, x5, x6, x7, x0, x1, K61, t0, t1);; \
+\
+    wr(z7, z5, z0, y0, t0, t1);; \
+    v_add_i32   x0, x0, z7;; \
+    rnd(x1, x2, x3, x4, x5, x6, x7, x0, K62, t0, t1);; \
+\
+\
+    v_add_i32   x0, K73, x0;; \
+    v_add_i32   x1, K77, x1;; \
+    v_add_i32   x2, K78, x2;; \
+    v_add_i32   x3, K79, x3;; \
+    v_add_i32   x4, K66, x4;; \
+    v_add_i32   x5, K67, x5;; \
+    v_add_i32   x6, K80, x6;; \
+    v_add_i32   x7, K81, x7;; \
+\
+    ; sha256_fresh end
+
+#endif

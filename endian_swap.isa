@@ -1,0 +1,14 @@
+#ifndef _ENDIAN_ISA_
+#define _ENDIAN_ISA_
+
+#define endian_swap(a, s, t) \
+    ; endian_swap begin;; \
+    ; a, s, t;; \
+\
+    v_alignbit_b32  t, a, a, 8;; \
+    v_alignbit_b32  a, a, a, 24;; \
+    v_bfi_b32       a, s13, a, t;; \
+\
+    ; endian_swap end
+
+#endif
